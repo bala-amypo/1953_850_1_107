@@ -1,11 +1,13 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 @Entity
+@Getter
+@Setter
 public class Evidence {
 
     @Id
@@ -17,10 +19,11 @@ public class Evidence {
 
     private String evidenceType;
     private String fileUrl;
+
     private LocalDateTime uploadedAt;
 
     @PrePersist
-    public void setTime() {
-        uploadedAt = LocalDateTime.now();
+    public void setUploadedAt() {
+        this.uploadedAt = LocalDateTime.now();
     }
 }

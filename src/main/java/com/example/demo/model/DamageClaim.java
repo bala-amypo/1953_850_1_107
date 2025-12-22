@@ -1,11 +1,14 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Entity
+@Getter
+@Setter
 public class DamageClaim {
 
     @Id
@@ -16,8 +19,11 @@ public class DamageClaim {
     private Parcel parcel;
 
     private String claimDescription;
+
     private LocalDateTime filedAt;
+
     private String status = "PENDING";
+
     private Double score;
 
     @ManyToMany
@@ -25,6 +31,6 @@ public class DamageClaim {
 
     @PrePersist
     public void setFiledAt() {
-        filedAt = LocalDateTime.now();
+        this.filedAt = LocalDateTime.now();
     }
 }
