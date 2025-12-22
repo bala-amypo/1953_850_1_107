@@ -14,6 +14,7 @@ public class User {
     private Long id;
 
     private String name;
+nano src/main/java/com/example/demo/model/User.java
 
     @Column(unique = true)
     private String email;
