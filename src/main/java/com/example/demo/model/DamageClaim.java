@@ -1,4 +1,4 @@
-package com.example.demo.config.model;
+package com.example.demo.model;
 
 @Entity
 public class DamageClaim {
