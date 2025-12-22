@@ -1,21 +1,29 @@
+package com.example.demo.service;
+
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import org.springframework.stereotype.Service;
+
 @Service
 public class UserService {
 
-    private final UserRepository repo;
+    private final UserRepository userRepository;
 
-    public UserService(UserRepository repo) {
-        this.repo = repo;
+    public UserService(UserRepository userRepository) { // EXACT
+        this.userRepository = userRepository;
     }
 
     public User register(User user) {
-        if (repo.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new BadRequestException("email exists");
         }
-        return repo.save(user);
+        return userRepository.save(user);
     }
 
     public User findByEmail(String email) {
-        User user = repo.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new ResourceNotFoundException("user not found");
         }
