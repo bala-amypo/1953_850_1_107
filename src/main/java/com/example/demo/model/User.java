@@ -8,6 +8,8 @@ import lombok.Setter;
 @Table(name = "users")
 @Getter
 @Setter
+find ~ -name pom.xml
+
 public class User {
 
     @Id
