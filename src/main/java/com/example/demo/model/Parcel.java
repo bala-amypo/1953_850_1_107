@@ -1,42 +1,41 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users") // avoid reserved keyword "user"
-public class User {
+public class Parcel {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String name;
-    private String email;
-    private String password;
-    private String role = "AGENT"; // DEFAULT REQUIRED
+    @Column(unique = true)
+    private String trackingNumber;
 
-    public User() {}
+    private String senderName;
+    private String receiverName;
+    private Double weightKg;
+    private LocalDateTime deliveredAt;
 
-    public User(String name, String email, String password, String role) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+    public Parcel() {}
+
+    public Parcel(String trackingNumber, String senderName, String receiverName, Double weightKg) {
+        this.trackingNumber = trackingNumber;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
+        this.weightKg = weightKg;
     }
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getTrackingNumber() { return trackingNumber; }
+    public String getSenderName() { return senderName; }
+    public Double getWeightKg() { return weightKg; }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setTrackingNumber(String trackingNumber) { this.trackingNumber = trackingNumber; }
+    public void setWeightKg(Double weightKg) { this.weightKg = weightKg; }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public LocalDateTime getDeliveredAt() { return deliveredAt; }
 }

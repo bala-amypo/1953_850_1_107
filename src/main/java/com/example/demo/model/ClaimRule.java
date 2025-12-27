@@ -1,46 +1,29 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-public class Parcel {
+public class ClaimRule {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String trackingNumber;
-    private String senderName;
-    private String receiverName;
-    private Double weightKg;
-    private LocalDateTime deliveredAt;
+    private String ruleName;
+    private String conditionExpression;
+    private double weight;
 
-    public Parcel() {}
+    public ClaimRule() {}
 
-    public Parcel(String trackingNumber, String sender, String receiver, Double weightKg) {
-        this.trackingNumber = trackingNumber;
-        this.senderName = sender;
-        this.receiverName = receiver;
-        this.weightKg = weightKg;
+    public ClaimRule(String ruleName, String conditionExpression, double weight) {
+        this.ruleName = ruleName;
+        this.conditionExpression = conditionExpression;
+        this.weight = weight;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getRuleName() { return ruleName; }
+    public void setRuleName(String ruleName) { this.ruleName = ruleName; }
 
-    public String getTrackingNumber() { return trackingNumber; }
-    public void setTrackingNumber(String trackingNumber) { this.trackingNumber = trackingNumber; }
-
-    public String getSenderName() { return senderName; }
-    public void setSenderName(String senderName) { this.senderName = senderName; }
-
-    public String getReceiverName() { return receiverName; }
-    public void setReceiverName(String receiverName) { this.receiverName = receiverName; }
-
-    public Double getWeightKg() { return weightKg; }
-    public void setWeightKg(Double weightKg) { this.weightKg = weightKg; }
-
-    public LocalDateTime getDeliveredAt() { return deliveredAt; }
-    public void setDeliveredAt(LocalDateTime deliveredAt) { this.deliveredAt = deliveredAt; }
+    public String getConditionExpression() { return conditionExpression; }
+    public double getWeight() { return weight; }
 }

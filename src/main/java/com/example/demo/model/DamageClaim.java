@@ -11,8 +11,8 @@ public class DamageClaim {
     private Long id;
 
     private String claimDescription;
+    private String status = "PENDING";
     private Double score;
-    private String status = "PENDING"; // REQUIRED DEFAULT
 
     @ManyToOne
     private Parcel parcel;
@@ -22,18 +22,19 @@ public class DamageClaim {
 
     public DamageClaim() {}
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getClaimDescription() { return claimDescription; }
-    public void setClaimDescription(String claimDescription) { this.claimDescription = claimDescription; }
-
-    public Double getScore() { return score; }
-    public void setScore(Double score) { this.score = score; }
+    public void setClaimDescription(String claimDescription) {
+        this.claimDescription = claimDescription;
+    }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public Double getScore() { return score; }
+    public void setScore(Double score) { this.score = score; }
 
     public Parcel getParcel() { return parcel; }
     public void setParcel(Parcel parcel) { this.parcel = parcel; }
