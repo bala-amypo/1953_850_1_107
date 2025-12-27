@@ -4,6 +4,7 @@ import com.example.demo.model.Parcel;
 import com.example.demo.repository.ParcelRepository;
 import com.example.demo.service.ParcelService;
 
+@Service
 public class ParcelServiceImpl implements ParcelService {
 
     private final ParcelRepository repo;
