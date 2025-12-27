@@ -10,34 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParcelServiceImpl implements ParcelService {
 
-    private final ParcelRepository parcelRepository;
+    private final ParcelRepository repo;
 
-    public ParcelServiceImpl(ParcelRepository parcelRepository) {
-        this.parcelRepository = parcelRepository;
+    public ParcelServiceImpl(ParcelRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
     public Parcel addParcel(Parcel parcel) {
-
-        if (parcelRepository.existsByTrackingNumber(parcel.getTrackingNumber())) {
+        if (repo.existsByTrackingNumber(parcel.getTrackingNumber())) {
             throw new BadRequestException("tracking exists");
         }
-
         if (parcel.getWeightKg() <= 0) {
             throw new BadRequestException("weight not valid");
         }
-
-        return parcelRepository.save(parcel);
+        return repo.save(parcel);
     }
 
-    @Override
-    public Parcel getByTrackingNumber(String trackingNumber) {
-        Parcel parcel = parcelRepository.findByTrackingNumber(trackingNumber);
-
-        if (parcel == null) {
-            throw new ResourceNotFoundException("parcel not found");
-        }
-
-        return parcel;
+    public Parcel getByTrackingNumber(String tracking) {
+        return repo.findByTrackingNumber(tracking)
+                .orElseThrow(() -> new ResourceNotFoundException("parcel not found"));
     }
 }

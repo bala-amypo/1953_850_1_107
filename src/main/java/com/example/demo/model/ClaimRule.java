@@ -7,6 +7,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClaimRule {
 
     @Id
@@ -14,6 +16,8 @@ public class ClaimRule {
     private Long id;
 
     private String ruleName;
+
     private String conditionExpression;
+
     private Double weight;
 }

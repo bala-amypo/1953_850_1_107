@@ -8,22 +8,19 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Evidence {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    private DamageClaim claim;
-
-    private String evidenceType;
     private String fileUrl;
 
-    private LocalDateTime uploadedAt;
+    private String evidenceType;
 
-    @PrePersist
-    public void setUploadedAt() {
-        this.uploadedAt = LocalDateTime.now();
-    }
+    private LocalDateTime uploadedAt = LocalDateTime.now();
+
+    @ManyToOne
+    private DamageClaim claim;
 }

@@ -9,28 +9,24 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class DamageClaim {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    private Parcel parcel;
-
     private String claimDescription;
-
-    private LocalDateTime filedAt;
-
-    private String status = "PENDING";
 
     private Double score;
 
-    @ManyToMany
-    private List<ClaimRule> appliedRules;
+    private String status = "PENDING"; // REQUIRED
 
-    @PrePersist
-    public void setFiledAt() {
-        this.filedAt = LocalDateTime.now();
-    }
+    private LocalDateTime filedAt = LocalDateTime.now();
+
+    @ManyToOne
+    private Parcel parcel;
+
+    @ManyToMany
+    private List<ClaimRule> appliedRules = new ArrayList<>(); // NEVER NULL
 }

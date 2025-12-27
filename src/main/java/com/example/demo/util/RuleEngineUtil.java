@@ -6,18 +6,31 @@ import java.util.List;
 public class RuleEngineUtil {
 
     public static double computeScore(String description, List<ClaimRule> rules) {
+
+        if (description == null || rules == null || rules.isEmpty()) {
+            return 0.0;
+        }
+
         double score = 0;
 
-        if (description == null || rules == null) {
-            return score;
-        }
-
         for (ClaimRule rule : rules) {
-            if (rule.getConditionExpression() != null &&
-                description.contains(rule.getConditionExpression())) {
+
+            if (rule.getWeight() <= 0) continue;
+
+            String expr = rule.getConditionExpression();
+
+            if ("always".equalsIgnoreCase(expr)) {
                 score += rule.getWeight();
             }
+            else if (expr != null && expr.startsWith("description_contains:")) {
+                String keyword = expr.split(":")[1].toLowerCase();
+                if (description.toLowerCase().contains(keyword)) {
+                    score += rule.getWeight();
+                }
+            }
         }
-        return score;
+
+        return Math.min(score, 1.0);
     }
 }
+
