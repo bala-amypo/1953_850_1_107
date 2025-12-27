@@ -1,15 +1,9 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 public class DamageClaim {
 
     @Id
@@ -17,16 +11,32 @@ public class DamageClaim {
     private Long id;
 
     private String claimDescription;
-
     private Double score;
-
-    private String status = "PENDING"; // REQUIRED
-
-    private LocalDateTime filedAt = LocalDateTime.now();
+    private String status = "PENDING"; // REQUIRED DEFAULT
 
     @ManyToOne
     private Parcel parcel;
 
     @ManyToMany
-    private List<ClaimRule> appliedRules = new ArrayList<>(); // NEVER NULL
+    private List<ClaimRule> appliedRules = new ArrayList<>();
+
+    public DamageClaim() {}
+
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getClaimDescription() { return claimDescription; }
+    public void setClaimDescription(String claimDescription) { this.claimDescription = claimDescription; }
+
+    public Double getScore() { return score; }
+    public void setScore(Double score) { this.score = score; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public Parcel getParcel() { return parcel; }
+    public void setParcel(Parcel parcel) { this.parcel = parcel; }
+
+    public List<ClaimRule> getAppliedRules() { return appliedRules; }
 }

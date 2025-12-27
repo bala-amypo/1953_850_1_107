@@ -1,23 +1,46 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ClaimRule {
+public class Parcel {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String ruleName;
+    private String trackingNumber;
+    private String senderName;
+    private String receiverName;
+    private Double weightKg;
+    private LocalDateTime deliveredAt;
 
-    private String conditionExpression;
+    public Parcel() {}
 
-    private Double weight;
+    public Parcel(String trackingNumber, String sender, String receiver, Double weightKg) {
+        this.trackingNumber = trackingNumber;
+        this.senderName = sender;
+        this.receiverName = receiver;
+        this.weightKg = weightKg;
+    }
+
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getTrackingNumber() { return trackingNumber; }
+    public void setTrackingNumber(String trackingNumber) { this.trackingNumber = trackingNumber; }
+
+    public String getSenderName() { return senderName; }
+    public void setSenderName(String senderName) { this.senderName = senderName; }
+
+    public String getReceiverName() { return receiverName; }
+    public void setReceiverName(String receiverName) { this.receiverName = receiverName; }
+
+    public Double getWeightKg() { return weightKg; }
+    public void setWeightKg(Double weightKg) { this.weightKg = weightKg; }
+
+    public LocalDateTime getDeliveredAt() { return deliveredAt; }
+    public void setDeliveredAt(LocalDateTime deliveredAt) { this.deliveredAt = deliveredAt; }
 }
