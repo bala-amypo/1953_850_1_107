@@ -1,40 +1,29 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.DamageClaim;
-import com.example.demo.model.Evidence;
-import com.example.demo.repository.DamageClaimRepository;
-import com.example.demo.repository.EvidenceRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.EvidenceService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class EvidenceServiceImpl implements EvidenceService {
 
-    private final EvidenceRepository evidenceRepository;
-    private final DamageClaimRepository damageClaimRepository;
+    private final EvidenceRepository repo;
+    private final DamageClaimRepository claimRepo;
 
-    public EvidenceServiceImpl(
-            EvidenceRepository evidenceRepository,
-            DamageClaimRepository damageClaimRepository) {
-
-        this.evidenceRepository = evidenceRepository;
-        this.damageClaimRepository = damageClaimRepository;
+    public EvidenceServiceImpl(EvidenceRepository r, DamageClaimRepository c) {
+        this.repo = r;
+        this.claimRepo = c;
     }
 
-    @Override
-    public Evidence uploadEvidence(Long claimId, Evidence evidence) {
-        DamageClaim claim = damageClaimRepository.findById(claimId)
-                .orElseThrow(() -> new ResourceNotFoundException("claim not found"));
-
-        evidence.setClaim(claim);
-        return evidenceRepository.save(evidence);
+    public Evidence uploadEvidence(Long claimId, Evidence e) {
+        DamageClaim claim = claimRepo.findById(claimId)
+                .orElseThrow(() -> new RuntimeException("claim not found"));
+        e.setClaim(claim);
+        return repo.save(e);
     }
 
-    @Override
-    public List<Evidence> getEvidenceForClaim(Long claimId) {
-        return evidenceRepository.findByClaim_Id(claimId);
+    public List<Evidence> getEvidenceForClaim(Long id) {
+        return repo.findByClaim_Id(id);
     }
 }
