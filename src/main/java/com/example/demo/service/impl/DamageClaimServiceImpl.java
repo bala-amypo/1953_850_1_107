@@ -4,44 +4,57 @@ import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.DamageClaimService;
 import com.example.demo.util.RuleEngineUtil;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // 🔥 THIS LINE FIXES EVERYTHING
 public class DamageClaimServiceImpl implements DamageClaimService {
 
     private final ParcelRepository parcelRepo;
     private final DamageClaimRepository claimRepo;
     private final ClaimRuleRepository ruleRepo;
 
-    public DamageClaimServiceImpl(ParcelRepository p, DamageClaimRepository c, ClaimRuleRepository r) {
-        this.parcelRepo = p;
-        this.claimRepo = c;
-        this.ruleRepo = r;
+    public DamageClaimServiceImpl(
+            ParcelRepository parcelRepo,
+            DamageClaimRepository claimRepo,
+            ClaimRuleRepository ruleRepo
+    ) {
+        this.parcelRepo = parcelRepo;
+        this.claimRepo = claimRepo;
+        this.ruleRepo = ruleRepo;
     }
 
+    @Override
     public DamageClaim fileClaim(Long parcelId, DamageClaim claim) {
         Parcel parcel = parcelRepo.findById(parcelId)
-                .orElseThrow(() -> new RuntimeException("parcel not found"));
+                .orElseThrow(() -> new RuntimeException("Parcel not found"));
+
         claim.setParcel(parcel);
+        claim.setStatus("PENDING");
+
         return claimRepo.save(claim);
     }
 
-    public DamageClaim evaluateClaim(Long id) {
-        DamageClaim claim = claimRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("claim not found"));
+    @Override
+    public DamageClaim evaluateClaim(Long claimId) {
+        DamageClaim claim = claimRepo.findById(claimId)
+                .orElseThrow(() -> new RuntimeException("Claim not found"));
 
         List<ClaimRule> rules = ruleRepo.findAll();
-        double score = RuleEngineUtil.computeScore(claim.getClaimDescription(), rules);
+        double score = RuleEngineUtil.computeScore(
+                claim.getClaimDescription(), rules
+        );
 
         claim.setScore(score);
-        claim.getAppliedRules().addAll(rules);
-        claim.setStatus(score > 0.9 ? "APPROVED" : "REJECTED");
+        claim.setStatus(score >= 0.9 ? "APPROVED" : "REJECTED");
 
         return claimRepo.save(claim);
     }
 
+    @Override
     public DamageClaim getClaim(Long id) {
         return claimRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("claim not found"));
+                .orElseThrow(() -> new RuntimeException("Claim not found"));
     }
 }
