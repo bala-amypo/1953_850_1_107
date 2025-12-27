@@ -3,24 +3,29 @@ package com.example.demo.service.impl;
 import com.example.demo.model.ClaimRule;
 import com.example.demo.repository.ClaimRuleRepository;
 import com.example.demo.service.ClaimRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // ✅ MUST BE PRESENT
 public class ClaimRuleServiceImpl implements ClaimRuleService {
 
-    private final ClaimRuleRepository repo;
+    private final ClaimRuleRepository repository;
 
-    public ClaimRuleServiceImpl(ClaimRuleRepository repo) {
-        this.repo = repo;
+    public ClaimRuleServiceImpl(ClaimRuleRepository repository) {
+        this.repository = repository;
     }
 
+    @Override
     public ClaimRule addRule(ClaimRule rule) {
-        if (rule.getWeight() < 0)
-            throw new RuntimeException("weight >= 0");
-        return repo.save(rule);
+        if (rule.getWeight() < 0) {
+            throw new RuntimeException("weight must be >= 0");
+        }
+        return repository.save(rule);
     }
 
+    @Override
     public List<ClaimRule> getAllRules() {
-        return repo.findAll();
+        return repository.findAll();
     }
 }
