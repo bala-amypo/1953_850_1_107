@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // 🔥 THIS LINE FIXES EVERYTHING
+@Service
 public class DamageClaimServiceImpl implements DamageClaimService {
 
     private final ParcelRepository parcelRepo;

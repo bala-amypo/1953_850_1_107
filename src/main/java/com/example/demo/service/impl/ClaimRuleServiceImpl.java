@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // ✅ MUST BE PRESENT
+@Service
 public class ClaimRuleServiceImpl implements ClaimRuleService {
 
     private final ClaimRuleRepository repository;
