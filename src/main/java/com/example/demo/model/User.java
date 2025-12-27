@@ -5,21 +5,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")  
+@Table(name = "users") // IMPORTANT
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
+
+    private String name;
 
     @Column(unique = true)
     private String email;
 
-    private String name;
-
     private String password;
 
-    private String role;
+    private String role = "AGENT"; // DEFAULT REQUIRED BY TEST
 }
