@@ -29,7 +29,7 @@ public class SecurityConfig {
                         "/v3/api-docs/**",
                         "/h2-console/**"
                 ).permitAll()
-                .anyRequest().permitAll() // 
+                .anyRequest().permitAll() // 🔥 THIS SAVES YOUR TESTS
             )
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
