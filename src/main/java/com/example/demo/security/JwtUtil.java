@@ -10,41 +10,47 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "secret123secret123secret123secret123";
-    private final long EXPIRATION = 3600000;
+    private static final String SECRET = "THIS_IS_A_SECRET_KEY_FOR_DEMO_PROJECT_123456";
+    private static final long ACCESS_EXP = 15 * 60 * 1000;   // 15 mins
+    private static final long REFRESH_EXP = 7 * 24 * 60 * 60 * 1000; // 7 days
 
     private Key getKey() {
         return Keys.hmacShaKeyFor(SECRET.getBytes());
     }
 
-    public String generateToken(String email, String role) {
+    public String generateAccessToken(String username) {
         return Jwts.builder()
-                .setSubject(email)
-                .claim("role", role)
+                .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_EXP))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String extractEmail(String token) {
-        return getClaims(token).getSubject();
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXP))
+                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    public boolean validateToken(String token) {
-        try {
-            getClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    private Claims getClaims(String token) {
+    public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getKey())
                 .build()
                 .parseClaimsJws(token)
-                .getBody();
+                .getBody()
+                .getSubject();
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            extractUsername(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
     }
 }
